@@ -3,7 +3,7 @@ const Product = require("../models/productSchema");
 const getProducts = async (req, res) => {
     try {
         const allProducts = await Product.find();
-        res.status(200).json(allUsers);
+        res.status(200).json(allProducts);
     } catch (error) {
         res.status(401).json(error);
     }
@@ -15,7 +15,7 @@ const addProducts = async (req, res) => {
     const quantity = req.body.quantity;
     const price = req.body.price;
     try { 
-        if (title !== null || description !== null || quantity !== null || price !== null) {
+        if (title !== null && description !== null && quantity !== null && price !== null) {
             const addProduct = Product({
                 title, 
                 description,
@@ -38,7 +38,7 @@ const addProducts = async (req, res) => {
 }
 
 const searchProducts = async (req, res) => {
-    const title = req.body.title;
+    const title = req.params.title;
     try {
       const searchProduct = await Product.findOne({title}); 
       if(!searchProduct) {
