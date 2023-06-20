@@ -6,11 +6,11 @@ const logInUser = async (req, res) => {
     const password = req.body.password;
     const user = await User.findOne({ email });
     if (!user || user.password !== password) {
-       res.status(401).json({status: "Invalid email and password"});
-       return;
+        res.status(401).json({ status: "Invalid email and password" });
+        return;
     } else if (user.password === password) {
-        const token = jsonwebtoken.sign({userId: user._id}, "secret", {expiresIn: 1440});
-        res.status(200).json({status: token});
+        const token = jsonwebtoken.sign({ userId: user._id }, "secret", { expiresIn: 1440 });
+        res.status(200).json({ status: token });
     }
 }
 

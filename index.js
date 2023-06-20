@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const userEndpoints = require("./Endpoints/userEndpoints");
+const productEndPoints = require("./Endpoints/productEndpoints");
 
 const app = express();
 
@@ -11,6 +12,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 app.use("/", userEndpoints);
+app.use("/products", productEndPoints);
 
 const port = process.env.PORT || 8080;
 
