@@ -15,7 +15,7 @@ const logInUser = async (req, res) => {
             // Set the `Authorization` header on the response
             res.setHeader("Authorization", `Bearer ${token}`);
         } else {
-            res.status(401).json("Invalid password!");
+            res.status(401).json("Invalid Password!");
         }
     });
 }
@@ -28,7 +28,7 @@ const signUpUser = async (req, res) => {
     const user = User.findOne({ email });
     user.then((error) => {
         if (error) {
-            res.status(401).json({ status: `User Already Existed!` });
+            res.status(401).json({ status: "User Already Existed!" });
         } else {
             const newUser = User({
                 username,

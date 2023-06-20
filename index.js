@@ -10,7 +10,7 @@ dotenv.config();
 //body parser
 app.use(express.json());
 app.use(cors());
-app.use("/stores", userEndpoints);
+app.use("/", userEndpoints);
 
 const port = process.env.PORT || 8080;
 
