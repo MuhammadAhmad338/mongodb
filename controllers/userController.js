@@ -4,20 +4,14 @@ const jsonwebtoken = require("jsonwebtoken");
 const logInUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    User.findOne({ email }, (err, user) => {
-        if (err) {
-            res.status(401).json("Some error Occured!");
-        } else if (!user) {
-            res.status(401).json("UnAuthenticated!");
-        } else if (user.password === password) {
-            const token = jsonwebtoken.sign({ userId: user._id }, "secret", { expiresIn: 1440 });
-
-            // Set the `Authorization` header on the response
-            res.setHeader("Authorization", `Bearer ${token}`);
-        } else {
-            res.status(401).json("Invalid Password!");
-        }
-    });
+    const user = await User.findOne({ email });
+    if (!user || user.password !== password) {
+       res.status(401).json({status: "Invalid email and password"});
+       return;
+    } else if (user.password === password) {
+        const token = jsonwebtoken.sign({userId: user._id}, "secret", {expiresIn: 1440});
+        res.status(200).json({status: token});
+    }
 }
 
 const signUpUser = async (req, res) => {
@@ -25,24 +19,22 @@ const signUpUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = User.findOne({ email });
-    user.then((error) => {
-        if (error) {
-            res.status(401).json({ status: "User Already Existed!" });
+    const user = await User.findOne({ email });
+    if (user) {
+        res.status(401).json({ status: "User Already Existed!" });
+    } else {
+        const newUser = User({
+            username,
+            email,
+            password
+        });
+        newUser.save();
+        if (newUser) {
+            res.status(200).json({ status: "User Created Successfully" });
         } else {
-            const newUser = User({
-                username,
-                email,
-                password
-            });
-            newUser.save();
-            if (newUser) {
-                res.status(200).json({ status: "User Created Successfully" });
-            } else {
-                res.status(401).json({ status: "Some Error Occured!" });
-            }
+            res.status(401).json({ status: "Some Error Occured!" });
         }
-    });
+    }
 }
 
 const getAllUsers = async (req, res) => {
