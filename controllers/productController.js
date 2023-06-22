@@ -2,8 +2,16 @@ const Product = require("../models/productSchema");
 
 const getProducts = async (req, res) => {
     try {
-        const allProducts = await Product.find();
-        res.status(200).json(allProducts);
+       const allProducts = await Product.find();
+       const filteredDataset = allProducts.map(({ title, description, price, quantity, category, imageUrl }) => ({
+        title,
+        description,
+        price,
+        quantity,
+        category,
+        imageUrl,
+      }));
+      res.status(200).json(filteredDataset); 
     } catch (error) {
         res.status(401).json(error);
     }
