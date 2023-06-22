@@ -56,10 +56,10 @@ const addProducts = async (req, res) => {
 }
 
 const searchProducts = async (req, res) => {
-    const title = req.params.id;
-    console.log(title);
+    var searchquery = req.params.id;
+    var category = searchquery.toLowerCase();
     try {
-        const searchProduct = await Product.find({ title });
+        const searchProduct = await Product.find({ category });
         if (!searchProduct) {
             res.status(401).json({ status: "Unauthorized!" })
         } else {
