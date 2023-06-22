@@ -16,7 +16,7 @@ const getProductsBy = async (req, res) => {
             category: category
         });
         console.log(getProducts);
-        res.status(200).json({ status: `${getProducts}` });
+        res.status(200).json({status: getProducts});
     } catch (error) {
         res.status(401).json({ status: `Some error Occured! ${error}` });
     }
@@ -28,6 +28,7 @@ const addProducts = async (req, res) => {
     const quantity = req.body.quantity;
     const price = req.body.price;
     const category = req.body.category;
+    const imageUrl = req.body.imageUrl;
     try {
         if (title !== null && description !== null && quantity !== null
             && price !== null && category !== null) {
@@ -36,7 +37,8 @@ const addProducts = async (req, res) => {
                 description,
                 quantity,
                 price,
-                category
+                category,
+                imageUrl
             });
             addProduct.save();
             if (addProduct) {
@@ -54,7 +56,8 @@ const addProducts = async (req, res) => {
 }
 
 const searchProducts = async (req, res) => {
-    const title = req.params.title;
+    const title = req.params.id;
+    console.log(title);
     try {
         const searchProduct = await Product.findOne({ title });
         if (!searchProduct) {
