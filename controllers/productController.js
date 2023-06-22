@@ -2,16 +2,16 @@ const Product = require("../models/productSchema");
 
 const getProducts = async (req, res) => {
     try {
-       const allProducts = await Product.find();
-       const filteredDataset = allProducts.map(({ title, description, price, quantity, category, imageUrl }) => ({
-        title,
-        description,
-        price,
-        quantity,
-        category,
-        imageUrl,
-      }));
-      res.status(200).json(filteredDataset); 
+        const allProducts = await Product.find();
+        const filteredDataset = allProducts.map(({ title, description, price, quantity, category, imageUrl }) => ({
+            title,
+            description,
+            price,
+            quantity,
+            category,
+            imageUrl,
+        }));
+        res.status(200).json(filteredDataset);
     } catch (error) {
         res.status(401).json(error);
     }
@@ -24,7 +24,7 @@ const getProductsBy = async (req, res) => {
             category: category
         });
         console.log(getProducts);
-        res.status(200).json({status: getProducts});
+        res.status(200).json({ status: getProducts });
     } catch (error) {
         res.status(401).json({ status: `Some error Occured! ${error}` });
     }
