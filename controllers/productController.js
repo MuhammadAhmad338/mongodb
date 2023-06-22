@@ -59,7 +59,7 @@ const searchProducts = async (req, res) => {
     const title = req.params.id;
     console.log(title);
     try {
-        const searchProduct = await Product.findOne({ title });
+        const searchProduct = await Product.find({ title });
         if (!searchProduct) {
             res.status(401).json({ status: "Unauthorized!" })
         } else {
